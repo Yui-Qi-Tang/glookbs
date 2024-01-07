@@ -2,7 +2,7 @@ package httphandler
 
 type RequsetCreateTask struct {
 	Name   string `json:"name" binding:"required" example:"task-1"`
-	Status int    `json:"status" binding:"required,min=0,max=1"`
+	Status int    `json:"status" binding:"min=0,max=1"`
 }
 
 type RequestGetTaskQuery struct {
