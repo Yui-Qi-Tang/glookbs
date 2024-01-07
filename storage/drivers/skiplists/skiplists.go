@@ -184,29 +184,23 @@ func (sl *SkipList) Delete(key int) bool {
 
 // Range returns data with range, returns empty slice if no data
 func (sl *SkipList) Range(i, j int) []any {
-	j++
-	result := []any{}
-	current := sl.head
-	start := (i - 1) * j
-	end := start + j
-	count := 0
-
-	for i := sl.level - 1; i >= 0; i-- {
-		for current.next[i] != nil && current.next[i].key < start {
-			current = current.next[i]
-		}
-	}
-
-	current = current.next[0]
-	for current != nil && current.key < end && count < j {
-		if current.key >= start {
-			result = append(result, current.data)
-			count++
-		}
+	current := sl.head.next[0]
+	result := make([]any, 0)
+	for current != nil {
+		result = append(result, current.data)
 		current = current.next[0]
 	}
 
-	return result
+	start := (i - 1) * j
+	if start >= len(result) {
+		return []any{}
+	}
+
+	end := start + j
+	if end <= len(result) {
+		return result[start:end]
+	}
+	return result[start:]
 }
 
 // Update performs delete+insert
