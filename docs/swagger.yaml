@@ -1,0 +1,160 @@
+definitions:
+  httphandler.RequsetCreateTask:
+    properties:
+      name:
+        example: task-1
+        type: string
+      status:
+        maximum: 1
+        minimum: 0
+        type: integer
+    required:
+    - name
+    - status
+    type: object
+  httphandler.RespCreateTaskOK:
+    properties:
+      id:
+        type: integer
+    type: object
+  httphandler.RespErr:
+    properties:
+      error:
+        type: string
+    type: object
+  httphandler.RespTask:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        type: integer
+    type: object
+  httphandler.RespTaskPagination:
+    properties:
+      page:
+        type: integer
+      page_size:
+        type: integer
+      tasks:
+        items:
+          $ref: '#/definitions/httphandler.RespTask'
+        type: array
+      total:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /tasks:
+    get:
+      parameters:
+      - description: "1"
+        in: query
+        name: page
+        type: integer
+      - description: "10"
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/httphandler.RespTaskPagination'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httphandler.RespErr'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httphandler.RespErr'
+      summary: returns tasks
+      tags:
+      - tasks
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: request data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/httphandler.RequsetCreateTask'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/httphandler.RespCreateTaskOK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httphandler.RespErr'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httphandler.RespErr'
+      summary: create task
+      tags:
+      - tasks
+  /tasks/{id}:
+    delete:
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "202":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httphandler.RespErr'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httphandler.RespErr'
+      summary: deletes task by id
+      tags:
+      - tasks
+    put:
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: request data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/httphandler.RequsetCreateTask'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/httphandler.RespTask'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httphandler.RespErr'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httphandler.RespErr'
+      summary: create or update task by id
+      tags:
+      - tasks
+swagger: "2.0"

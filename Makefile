@@ -8,6 +8,7 @@ GO=go
 GOOS=GOOS=linux
 GOARCH=GOARCH=amd64
 GOFLAGS=-ldflags '-w -s'
+GOSWAG=$$(go env GOPATH)/bin/swag
 
 .PHONY: clean
 
@@ -24,6 +25,12 @@ test_race:
 
 pre_check:
 	@if ! test -f $(BLD); then mkdir -p $(BLD); fi
+
+api_doc:
+	$(GOSWAG) init -g api/httphandler/*.go
+
+run:
+	$(GO) run main.go runserver
 
 clean:
 	rm -f $(BLD)/* core
