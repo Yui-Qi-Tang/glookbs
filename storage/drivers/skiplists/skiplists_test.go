@@ -263,7 +263,8 @@ func TestRangeQuery(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			list := testList()
 			for _, key := range tt.in {
-				if err := list.insert(key, "test-data"); err != nil {
+				// abuse the key as data for convince
+				if err := list.insert(key, key); err != nil {
 					t.Fatal("insert error", err)
 				}
 			}

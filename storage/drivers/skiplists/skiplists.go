@@ -3,6 +3,7 @@ package skiplists
 import (
 	"fmt"
 	"math/rand"
+	"reflect"
 	"sync"
 
 	"github.com/pkg/errors"
@@ -38,6 +39,7 @@ type SkipList struct {
 	head   *Node
 	level  int
 	length int
+	maxID  int
 }
 
 func newNode(key, level int, data any) *Node {
@@ -50,7 +52,7 @@ func newNode(key, level int, data any) *Node {
 
 func New() *SkipList {
 	head := newNode(-1, MaxLevel, nil)
-	return &SkipList{head, 1, 0}
+	return &SkipList{head, 1, 0, 0}
 }
 
 func (sl *SkipList) Count() int {
@@ -72,10 +74,20 @@ func randomLevel() int {
 
 // Insert inserts data and returns id if success, otherwise id=-1 with error
 func (sl *SkipList) Insert(data any) (int, error) {
-	id := sl.len() + 1
+	id := sl.maxID + 1
+	// add the id into the data with field
+	value := reflect.ValueOf(data)
+	if value.Kind() == reflect.Pointer {
+		idField := value.Elem().FieldByName("ID")
+		if idField.CanSet() && idField.IsValid() {
+			idField.SetInt(int64(id))
+		}
+	}
+	// perform the low-level insert
 	if err := sl.insert(id, data); err != nil {
 		return -1, err
 	}
+	sl.maxID = id
 	return id, nil
 }
 
@@ -188,7 +200,7 @@ func (sl *SkipList) Range(i, j int) []any {
 	current = current.next[0]
 	for current != nil && current.key < end && count < j {
 		if current.key >= start {
-			result = append(result, current.key)
+			result = append(result, current.data)
 			count++
 		}
 		current = current.next[0]

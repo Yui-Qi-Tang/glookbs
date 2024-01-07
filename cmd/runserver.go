@@ -57,8 +57,8 @@ func runserver() *cobra.Command {
 
 	cmd.Flags().StringVarP(&addr, "addr", "a", ":8080", "address of httpserver")
 	cmd.Flags().StringVarP(&apiMode, "mode", "m", "debug", "mode of api")
-	cmd.Flags().StringVarP(&pathTLSKey, "tls-key", "tk", "", "path of tls key")
-	cmd.Flags().StringVarP(&pathTLSCert, "tls-cert", "tc", "", "path of tls cert")
+	cmd.Flags().StringVarP(&pathTLSKey, "tls-key", "k", "", "path of tls key")
+	cmd.Flags().StringVarP(&pathTLSCert, "tls-cert", "c", "", "path of tls cert")
 
 	return cmd
 }

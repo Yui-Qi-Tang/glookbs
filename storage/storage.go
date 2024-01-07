@@ -39,7 +39,7 @@ func (s *Storage) Insert(data any) (int, error) {
 	return s.engine.Insert(data)
 }
 
-func (s *Storage) Count(data any) int {
+func (s *Storage) Count() int {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 	return s.engine.Count()
