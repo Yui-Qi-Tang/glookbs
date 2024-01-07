@@ -26,4 +26,6 @@ A `task` should contain at least the following fields:
 
 # Run
 
-`docker-compose up`
+start task rest api server: `docker-compose up`
+
+api docs: `http://127.0.0.1:8080/docs/index.html`
