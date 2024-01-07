@@ -15,7 +15,7 @@ GOSWAG=$$(go env GOPATH)/bin/swag
 all: pre_check test test_race build
 
 build:
-	$(GOOS) $(GOARCH) $(GO) build $(GOFLAGS) -o $(BLD)/$(BIN)
+	CGO_ENABLED=0 $(GOOS) $(GOARCH) $(GO) build $(GOFLAGS) -o $(BLD)/$(BIN)
 
 test:
 	$(GO) test ./... -count=1

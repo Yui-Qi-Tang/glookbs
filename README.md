@@ -23,3 +23,7 @@ A `task` should contain at least the following fields:
  - Provides Dockerfile to run API in Docker
  - Manage the codebase on Github and provide us with the repository link
  - For data storage, you can use any in-memory mechanism
+
+# Run
+
+`docker-compose up`
