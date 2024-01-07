@@ -15,11 +15,6 @@ import (
 	"gotest.tools/assert"
 )
 
-type Data struct {
-	ID   int
-	Name string
-}
-
 func TestCreateTask(t *testing.T) {
 	router := New(gin.TestMode, storage.New(skiplists.New()))
 	testcase := []struct {
