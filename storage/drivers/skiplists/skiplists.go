@@ -21,7 +21,7 @@ func init() {
 
 var (
 	MaxNodes = 512
-	MaxLevel = 128
+	MaxLevel = 10
 )
 
 var (
